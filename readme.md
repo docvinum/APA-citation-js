@@ -15,12 +15,15 @@ APA-citation-js est une bibliothèque JavaScript légère qui permet de génére
 
 ```html
 <script src="cite-article.js"></script>
+```
 
 # Utilisation
 Pour utiliser APA-citation-js, vous devez ajouter un bouton dans votre page HTML qui permettra à l'utilisateur de copier la citation dans son presse-papier. Voici un exemple d'utilisation :
 
+```html
 <!-- Exemple de bouton pour copier la citation APA -->
 <button onclick="copyAPACitation()">Copier la citation APA</button>
+```
 
 Assurez-vous que les méta-données de l'article sont présentes sur la page, telles que les auteurs, la date de publication et le DOI. APA-citation-js utilisera ces informations pour générer la citation au format APA.
 
