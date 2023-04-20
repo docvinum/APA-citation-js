@@ -23,18 +23,22 @@ function getIssue() {
 
 // Step 1: Retrieve article information from HTML
 function getArticleInfo() {
-  const title = document.querySelector('.et_pb_text_inner h1').textContent;
-	console.log(title);
-  const rawAuthors = document.querySelector('#publication-author .et_pb_text_inner p').textContent;
+  const titleElement = document.querySelector('.et_pb_text_inner h1');
+  const title = titleElement ? titleElement.textContent : '';
+
+  const rawAuthorsElement = document.querySelector('#publication-author .et_pb_text_inner p');
+  const rawAuthors = rawAuthorsElement ? rawAuthorsElement.textContent : '';
   const regex = /[⁰¹²³⁴⁵⁶⁷⁸⁹]/g;
   const cleanAuthors = rawAuthors.replace(regex, '').trim();
   const authors = cleanAuthors.split(/(?:, | and | et )/);
-	console.log(authors);
-  const issue = document.querySelector('#publication-issue .et_pb_text_inner p').innerText.split(': ')[1];
-	console.log(issue);
-  const doi = document.querySelector('#publication-doi .et_pb_text_inner p a').getAttribute('href');
-	console.log(doi);
-  
+
+  const issueElement = document.querySelector('#publication-issue .et_pb_text_inner p');
+  const issueRaw = issueElement ? issueElement.innerText.split(': ')[1] : '';
+  const issue = issueRaw ? issueRaw : '';
+
+  const doiElement = document.querySelector('#publication-doi .et_pb_text_inner p a');
+  const doi = doiElement ? doiElement.getAttribute('href') : '';
+
   return { title, authors, issue, doi };
 }
   
