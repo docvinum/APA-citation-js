@@ -1,47 +1,31 @@
-// Step 0: test of Step 1: Retrieve article information from HTML
-function getTitle() {
-  const title = document.querySelector('.et_pb_text_inner h1').innerText;
-	console.log(title);
-}
-
-function getAuthor() {
-  const rawAuthors = document.querySelector('#publication-author .et_pb_text_inner p').innerText;
-	console.log(rawAuthors);
-  const regex = /[⁰¹²³⁴⁵⁶⁷⁸⁹]/g;
-  const cleanAuthors = rawAuthors.replace(regex, '').trim();
-	console.log(cleanAuthors);
-  const authors = cleanAuthors.split(/(?:, | and | et )/);
-	console.log(authors);
-}
-
-function getIssue() {
-  const issue = document.querySelector('#publication-issue .et_pb_text_inner p').innerText.split(': ')[1];
-	console.log(issue);
-  const doi = document.querySelector('#publication-doi .et_pb_text_inner p a').getAttribute('href');
-	console.log(doi);
-}  
-
 // Step 1: Retrieve article information from HTML
 function getArticleInfo() {
   const titleElement = document.querySelector('.et_pb_text_inner h1');
   const title = titleElement ? titleElement.textContent : '';
+  console.log("title: ",title);
 
   const rawAuthorsElement = document.querySelector('#publication-author .et_pb_text_inner p');
   const rawAuthors = rawAuthorsElement ? rawAuthorsElement.textContent : '';
   const regex = /[⁰¹²³⁴⁵⁶⁷⁸⁹]/g;
   const cleanAuthors = rawAuthors.replace(regex, '').trim();
   const authors = rawAuthors ? cleanAuthors.split(/(?:, | and | et )/) : [];
+  console.log("authors: ", authors);
 
   const issueElement = document.querySelector('#publication-issue .et_pb_text_inner p');
   const issueRaw = issueElement ? issueElement.innerText.split(': ')[1] : '';
   const issue = issueRaw ? issueRaw : '';
+  console.log("issue: ", issue);
 
   const doiElement = document.querySelector('#publication-doi .et_pb_text_inner p a');
   const doi = doiElement ? doiElement.getAttribute('href') : '';
+  console.log("doi: ", doi);
 
   return { title, authors, issue, doi };
 }
-  
+
+const citationElement = createCitationElement();
+
+
 // Step 2: Define APA citation formats object
 const apaFormats = {
     'APA 6th Edition': function(article) {
@@ -154,11 +138,20 @@ function displayCitation(article) {
   document.querySelector('#citation-frame').appendChild(citationElem);
 
   // Add button to copy citation to clipboard
-  const copyButton = document.createElement('button');
-  copyButton.textContent = 'Copy citation';
-  document.querySelector('#citation-frame').appendChild(copyButton);
-
+  // const copyButton = document.createElement('button');
+  // copyButton.textContent = 'Copy citation';
+  // document.querySelector('#citation-frame').appendChild(copyButton);
+  
   // Copy citation to clipboard when button is clicked
+  document.addEventListener('DOMContentLoaded', () => {
+  const citeButton = document.getElementById('cite-button');
+  if (citeButton) {
+    citeButton.addEventListener('click', () => {
+      copyTextToClipboard(citationElement.textContent);
+    });
+  }
+});
+  
   copyButton.addEventListener('click', function() {
     const selectedFormat = document.querySelector('select').value;
     const citation = apaFormats[selectedFormat](article);
@@ -182,6 +175,7 @@ function displayCitation(article) {
 // On page load, create APA citation format dropdown and display default citation
 window.addEventListener('load', function() {
   createDropdown();
+  getArticleInfo();
   const article = getArticleInfo();
   displayCitation(article);
 });
