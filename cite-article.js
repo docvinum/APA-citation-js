@@ -166,7 +166,15 @@ function displayCitation(article) {
     tempElem.value = citation;
     document.body.appendChild(tempElem);
     tempElem.select();
-    document.execCommand('copy');
+    async function copyTextToClipboard(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+    console.log('Text copied to clipboard');
+  } catch (err) {
+    console.error('Error copying text to clipboard', err);
+  }
+}
+
     document.body.removeChild(tempElem);
   });
 }
