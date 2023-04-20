@@ -30,7 +30,7 @@ function getArticleInfo() {
   const rawAuthors = rawAuthorsElement ? rawAuthorsElement.textContent : '';
   const regex = /[⁰¹²³⁴⁵⁶⁷⁸⁹]/g;
   const cleanAuthors = rawAuthors.replace(regex, '').trim();
-  const authors = cleanAuthors.split(/(?:, | and | et )/);
+  const authors = rawAuthors ? cleanAuthors.split(/(?:, | and | et )/) : [];
 
   const issueElement = document.querySelector('#publication-issue .et_pb_text_inner p');
   const issueRaw = issueElement ? issueElement.innerText.split(': ')[1] : '';
