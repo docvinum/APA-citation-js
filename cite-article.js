@@ -163,8 +163,6 @@ document.addEventListener('DOMContentLoaded', function() {
   displayCitation(article);
 });
 
-
-
   // Ajoute un autre écouteur d'événements pour exécuter des fonctions
   // une fois que le contenu du document est complètement chargé.
   document.addEventListener('DOMContentLoaded', () => {
@@ -186,3 +184,4 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     }
   });
+}
