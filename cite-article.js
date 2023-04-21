@@ -105,7 +105,6 @@ const apaFormats = {
   }
 }
 
-
 // Step 3: Create dropdown menu for APA citation formats
 function createDropdown() {
   const select = document.createElement('select');
@@ -148,13 +147,20 @@ document.addEventListener('DOMContentLoaded', function() {
   if (citeButton) {
     // Add a 'click' event listener to the button to copy the citation.
     citeButton.addEventListener('click', () => {
-      // Select the citation element from the HTML page.
+      // Get the current citation displayed on the page.
       const citationElement = document.querySelector('#citation-frame p');
 
       // Check if the citation element was found.
       if (citationElement) {
         // Copy the text of the citation element to the clipboard.
-        copyTextToClipboard(citationElement.textContent);
+        navigator.clipboard.writeText(citationElement.textContent).then(
+          () => {
+            console.log('Text copied to clipboard');
+          },
+          () => {
+            console.error('Error copying text to clipboard');
+          }
+        );
       }
     });
   }
