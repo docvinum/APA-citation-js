@@ -156,32 +156,29 @@ async function copyTextToClipboard(text) {
   }
 }
 
+// ... (previous code remains the same)
+
 // On page load, create APA citation format dropdown and display default citation
 document.addEventListener('DOMContentLoaded', function() {
   createDropdown();
   const article = getArticleInfo();
   displayCitation(article);
+
+  // Select the button for copying the citation from the HTML page.
+  const citeButton = document.getElementById('cite-button');
+
+  // Check if the button was found.
+  if (citeButton) {
+    // Add a 'click' event listener to the button to copy the citation.
+    citeButton.addEventListener('click', () => {
+      // Select the citation element from the HTML page.
+      const citationElement = document.getElementById('citation-text');
+
+      // Check if the citation element was found.
+      if (citationElement) {
+        // Copy the text of the citation element to the clipboard.
+        copyTextToClipboard(citationElement.textContent);
+      }
+    });
+  }
 });
-
-  // Ajoute un autre écouteur d'événements pour exécuter des fonctions
-  // une fois que le contenu du document est complètement chargé.
-  document.addEventListener('DOMContentLoaded', () => {
-    // Sélectionne le bouton pour copier la citation à partir de la page HTML.
-    const citeButton = document.getElementById('cite-button');
-
-    // Vérifie si le bouton a été trouvé.
-    if (citeButton) {
-      // Ajoute un écouteur d'événements 'click' au bouton pour copier la citation.
-      citeButton.addEventListener('click', () => {
-        // Sélectionne l'élément de citation à partir de la page HTML.
-        const citationElement = document.getElementById('citation-text');
-
-        // Vérifie si l'élément de citation a été trouvé.
-        if (citationElement) {
-          // Copie le texte de l'élément de citation dans le presse-papier.
-          copyTextToClipboard(citationElement.textContent);
-        }
-      });
-    }
-  });
-}
