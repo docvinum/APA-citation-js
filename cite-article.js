@@ -23,9 +23,6 @@ function getArticleInfo() {
   return { title, authors, issue, doi };
 }
 
-const citationElement = createCitationElement();
-
-
 // Step 2: Define APA citation formats object
 const apaFormats = {
     'APA 6th Edition': function(article) {
@@ -207,4 +204,3 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
-
