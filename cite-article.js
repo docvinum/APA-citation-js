@@ -172,10 +172,9 @@ function displayCitation(article) {
   });
 }
 
-// On page load, create APA citation format dropdown and display default citation
-window.addEventListener('load', function() {
+// On document DOM load, create APA citation format dropdown and display default citation
+document.addEventListener('DOMContentLoaded', function() {
   createDropdown();
-  getArticleInfo();
   const article = getArticleInfo();
   displayCitation(article);
 });
