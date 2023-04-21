@@ -164,3 +164,25 @@ document.addEventListener('DOMContentLoaded', function() {
   const article = getArticleInfo();
   displayCitation(article);
 });
+
+// Ajoute un autre écouteur d'événements pour exécuter des fonctions
+// une fois que le contenu du document est complètement chargé.
+document.addEventListener('DOMContentLoaded', () => {
+  // Sélectionne le bouton pour copier la citation à partir de la page HTML.
+  const citeButton = document.getElementById('cite-button');
+
+  // Vérifie si le bouton a été trouvé.
+  if (citeButton) {
+    // Ajoute un écouteur d'événements 'click' au bouton pour copier la citation.
+    citeButton.addEventListener('click', () => {
+      // Sélectionne l'élément de citation à partir de la page HTML.
+      const citationElement = document.getElementById('citation-text');
+
+      // Vérifie si l'élément de citation a été trouvé.
+      if (citationElement) {
+        // Copie le texte de l'élément de citation dans le presse-papier.
+        copyTextToClipboard(citationElement.textContent);
+      }
+    });
+  }
+});
