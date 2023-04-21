@@ -133,30 +133,7 @@ function displayCitation(article) {
   const citationElem = document.createElement('p');
   citationElem.textContent = citation;
   document.querySelector('#citation-frame').appendChild(citationElem);
-
-// Copy citation to clipboard when button is clicked
-document.addEventListener('DOMContentLoaded', () => {
-  const citeButton = document.getElementById('cite-button');
-  if (citeButton) {
-    citeButton.addEventListener('click', () => {
-      const selectedFormat = document.querySelector('select').value;
-      const article = getArticleInfo();
-      const citation = apaFormats[selectedFormat](article);
-      copyTextToClipboard(citation);
-    });
-  }
-});
-
-async function copyTextToClipboard(text) {
-  try {
-    await navigator.clipboard.writeText(text);
-    console.log('Text copied to clipboard');
-  } catch (err) {
-    console.error('Error copying text to clipboard', err);
-  }
 }
-
-// ... (previous code remains the same)
 
 // On page load, create APA citation format dropdown and display default citation
 document.addEventListener('DOMContentLoaded', function() {
@@ -172,7 +149,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add a 'click' event listener to the button to copy the citation.
     citeButton.addEventListener('click', () => {
       // Select the citation element from the HTML page.
-      const citationElement = document.getElementById('citation-text');
+      const citationElement = document.querySelector('#citation-frame p');
 
       // Check if the citation element was found.
       if (citationElement) {
