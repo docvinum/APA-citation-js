@@ -133,40 +133,28 @@ function displayCitation(article) {
   const citationElem = document.createElement('p');
   citationElem.textContent = citation;
   document.querySelector('#citation-frame').appendChild(citationElem);
-
-  // Add button to copy citation to clipboard
-  // const copyButton = document.createElement('button');
-  // copyButton.textContent = 'Copy citation';
-  // document.querySelector('#citation-frame').appendChild(copyButton);
   
-  // Copy citation to clipboard when button is clicked
-  document.addEventListener('DOMContentLoaded', () => {
+// ... Le reste du code ...
+
+// Copy citation to clipboard when button is clicked
+document.addEventListener('DOMContentLoaded', () => {
   const citeButton = document.getElementById('cite-button');
   if (citeButton) {
     citeButton.addEventListener('click', () => {
-      copyTextToClipboard(citationElement.textContent);
+      const selectedFormat = document.querySelector('select').value;
+      const citation = apaFormats[selectedFormat](article);
+      copyTextToClipboard(citation);
     });
   }
 });
-  
-  cite-button.addEventListener('click', function() {
-    const selectedFormat = document.querySelector('select').value;
-    const citation = apaFormats[selectedFormat](article);
-    const tempElem = document.createElement('textarea');
-    tempElem.value = citation;
-    document.body.appendChild(tempElem);
-    tempElem.select();
-    async function copyTextToClipboard(text) {
+
+async function copyTextToClipboard(text) {
   try {
     await navigator.clipboard.writeText(text);
     console.log('Text copied to clipboard');
   } catch (err) {
     console.error('Error copying text to clipboard', err);
   }
-}
-
-    document.body.removeChild(tempElem);
-  });
 }
 
 
