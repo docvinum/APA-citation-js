@@ -134,7 +134,7 @@ function displayCitation(article) {
   citationElem.textContent = citation;
   document.querySelector('#citation-frame').appendChild(citationElem);
   
-// ... Le reste du code ...
+// ... Les autres fonctions ...
 
 // Copy citation to clipboard when button is clicked
 document.addEventListener('DOMContentLoaded', () => {
@@ -142,6 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (citeButton) {
     citeButton.addEventListener('click', () => {
       const selectedFormat = document.querySelector('select').value;
+      const article = getArticleInfo();
       const citation = apaFormats[selectedFormat](article);
       copyTextToClipboard(citation);
     });
@@ -157,38 +158,9 @@ async function copyTextToClipboard(text) {
   }
 }
 
-
-// Ajoute un écouteur d'événements pour exécuter des fonctions
-// une fois que le contenu du document est complètement chargé.
+// On page load, create APA citation format dropdown and display default citation
 document.addEventListener('DOMContentLoaded', function() {
-  // Crée le menu déroulant pour sélectionner le format de citation.
   createDropdown();
-
-  // Récupère les informations de l'article à partir de la page HTML.
   const article = getArticleInfo();
-
-  // Affiche la citation formatée en fonction des informations de l'article récupérées.
   displayCitation(article);
-});
-
-// Ajoute un autre écouteur d'événements pour exécuter des fonctions
-// une fois que le contenu du document est complètement chargé.
-document.addEventListener('DOMContentLoaded', () => {
-  // Sélectionne le bouton pour copier la citation à partir de la page HTML.
-  const citeButton = document.getElementById('cite-button');
-
-  // Vérifie si le bouton a été trouvé.
-  if (citeButton) {
-    // Ajoute un écouteur d'événements 'click' au bouton pour copier la citation.
-    citeButton.addEventListener('click', () => {
-      // Sélectionne l'élément de citation à partir de la page HTML.
-      const citationElement = document.getElementById('citation-text');
-
-      // Vérifie si l'élément de citation a été trouvé.
-      if (citationElement) {
-        // Copie le texte de l'élément de citation dans le presse-papier.
-        copyTextToClipboard(citationElement.textContent);
-      }
-    });
-  }
 });
