@@ -149,7 +149,7 @@ function displayCitation(article) {
   }
 });
   
-  copyButton.addEventListener('click', function() {
+  cite-button.addEventListener('click', function() {
     const selectedFormat = document.querySelector('select').value;
     const citation = apaFormats[selectedFormat](article);
     const tempElem = document.createElement('textarea');
