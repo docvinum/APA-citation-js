@@ -151,21 +151,23 @@ document.addEventListener('DOMContentLoaded', function() {
   // Check if the button was found.
   if (citeButton) {
     // Add a 'click' event listener to the button to copy the citation.
-    citeButton.addEventListener('click', () => {
+    citeButton.addEventListener('click', async () => {
       // Get the current citation displayed on the page.
       const citationElement = document.querySelector('#citation-frame p');
 
       // Check if the citation element was found.
       if (citationElement) {
-        // Copy the text of the citation element to the clipboard.
-        navigator.clipboard.writeText(citationElement.textContent).then(
-          () => {
-            console.log('Text copied to clipboard');
-          },
-          () => {
-            console.error('Error copying text to clipboard');
-          }
-        );
+        // Copy the inner HTML of the citation element to the clipboard as rich text.
+        const type = "text/html";
+        const blob = new Blob([citationElement.innerHTML], { type });
+        const data = [new ClipboardItem({ [type]: blob })];
+
+        try {
+          await navigator.clipboard.write(data);
+          console.log('Text copied to clipboard');
+        } catch (err) {
+          console.error('Error copying text to clipboard', err);
+        }
       }
     });
   }
