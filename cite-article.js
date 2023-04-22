@@ -130,12 +130,14 @@ function createDropdown() {
 
 // Step 4: Retrieve selected APA citation format and display citation
 function displayCitation(article) {
-  const selectedFormat = document.querySelector('select').value;
+  const selectedFormat = document.querySelector("select").value;
   const citation = apaFormats[selectedFormat](article);
-  const citationElem = document.createElement('p');
-  citationElem.textContent = citation;
-  document.querySelector('#citation-frame').appendChild(citationElem);
+  const citationElem = document.createElement("p");
+  citationElem.id = "citation"; // Add an ID to the citation element for easier reference
+  citationElem.innerHTML = citation; // Change this line from "citationElem.textContent = citation;"
+  document.querySelector("#citation-frame").appendChild(citationElem);
 }
+
 
 // On page load, create APA citation format dropdown and display default citation
 document.addEventListener('DOMContentLoaded', function() {
