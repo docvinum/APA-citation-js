@@ -120,11 +120,11 @@ function createDropdown() {
   document.querySelector('#citation-frame').appendChild(select);
 
   // Update citation when selection changes
-  select.addEventListener('change', function() {
+  select.addEventListener("change", function () {
     const article = getArticleInfo();
     const selectedFormat = this.value;
     const citation = apaFormats[selectedFormat](article);
-    document.querySelector('#citation-frame p').textContent = citation;
+    document.querySelector("#citation-frame p").innerHTML = citation;
   });
 }
 
