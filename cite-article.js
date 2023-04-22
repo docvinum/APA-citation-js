@@ -23,11 +23,14 @@ function getArticleInfo() {
   return { title, authors, issue, doi };
 }
 
+
 // Step 2: Define APA citation formats object
+const journal = "IVES Conference Series";
+
 const apaFormats = {
   'APA 6th Edition': function(article) {
     const authorString = article.authors.join(', ');
-    return `${authorString} (${new Date().getFullYear()}). ${article.title}. ${article.issue}. ${article.doi}`;
+    return `${authorString} (${new Date().getFullYear()}). ${article.title}. ${journal}. ${article.issue}. ${article.doi}`;
   },
   'APA 7th Edition': function(article) {
     const formattedAuthors = article.authors.map(author => {
@@ -36,21 +39,21 @@ const apaFormats = {
       const lastName = words.pop().replace(',', '');
       return `${lastName}, ${words.join(' ')} ${firstName.charAt(0)}.`;
     }).join(', ');
-    return `${formattedAuthors} (${new Date().getFullYear()}). ${article.title}. ${article.issue}. ${article.doi}`;
+    return `${formattedAuthors} (${new Date().getFullYear()}). ${article.title}. ${journal}. ${article.issue}. ${article.doi}`;
   },
   'ACM': function(article) {
     const authorString = article.authors.map(author => {
       const [firstName, lastName] = author.split(' ');
       return `${lastName}, ${firstName[0]}.`;
     }).join(', ');
-    return `${authorString}. ${new Date().getFullYear()}. ${article.title}. ${article.issue}. ${article.doi}`;
+    return `${authorString}. ${new Date().getFullYear()}. ${article.title}. ${journal}. ${article.issue}. ${article.doi}`;
   },
   'ACS': function(article) {
     const authorString = article.authors.map(author => {
       const [firstName, lastName] = author.split(' ');
       return `${lastName}, ${firstName}`;
     }).join('; ');
-    return `${authorString}. ${article.title}. ${article.issue}. ${article.doi}.`;
+    return `${authorString}. ${article.title}. ${journal}. ${article.issue}. ${article.doi}.`;
   },
   'ABNT': function(article) {
     const formattedAuthors = article.authors.map(author => {
@@ -59,49 +62,49 @@ const apaFormats = {
       const firstInitials = words.filter(word => !word.match(/^[A-Z]\.$/)).map(word => word.charAt(0)).join(' ');
       return `${lastName.toUpperCase()}, ${firstInitials}.`;
     }).join('; ');
-    return `${formattedAuthors}. ${article.title}. ${article.issue}. ${article.doi}. ${new Date().getFullYear()}.`;
+    return `${formattedAuthors}. ${article.title}. ${journal}. ${article.issue}. ${article.doi}. ${new Date().getFullYear()}.`;
   },
   'Chicago': function(article) {
     const authorString = article.authors.map(author => {
       const [firstName, lastName] = author.split(' ');
       return `${lastName} ${firstName}`;
     }).join(', ');
-    return `${authorString}. "${article.title}." ${article.issue} (${new Date().getFullYear()}): ${article.doi}.`;
+    return `${authorString}. "${article.title}." ${journal}. ${article.issue} (${new Date().getFullYear()}): ${article.doi}.`;
   },
   'Harvard': function(article) {
     const authorString = article.authors.map(author => {
       const [lastName, ...rest] = author.split(' ');
       return `${rest.join(' ')} ${lastName.toUpperCase()}`;
     }).join(', ');
-    return `${authorString} ${new Date().getFullYear()}, ${article.title}, ${article.issue}, ${article.doi}.`;
+    return `${authorString} ${new Date().getFullYear()}, ${article.title}, ${journal}, ${article.issue}, ${article.doi}.`;
   },
   'IEEE': function(article) {
     const authorString = article.authors.map(author => {
       const [firstName, lastName] = author.split(' ');
       return `${firstName[0]}. ${lastName}`;
     }).join(', ');
-    return `${authorString}, "${article.title}," ${article.issue}, ${new Date().getFullYear()}, doi: ${article.doi}.`;
+    return `${authorString}, "${article.title}," ${article.journal} ${article.issue}, ${new Date().getFullYear()}, doi: ${article.doi}.`;
   },
   'MLA': function(article) {
     const authorString = article.authors.map(author => {
       const [firstName, lastName] = author.split(' ');
       return `${lastName}, ${firstName}`;
     }).join(', ');
-    return `${authorString}. "${article.title}." ${article.issue}, ${new Date().getFullYear()}, ${article.doi}.`;
+    return `${authorString}. "${article.title}." ${journal}. ${article.issue}, ${new Date().getFullYear()}, ${article.doi}.`;
   },
   'Turabian': function(article) {
     const authorString = article.authors.map(author => {
       const [firstName, lastName] = author.split(' ');
       return `${lastName}, ${firstName}`;
     }).join(', ');
-    return `${authorString}. "${article.title}." ${article.issue} (${new Date().getFullYear()}): ${article.doi}.`;
+    return `${authorString}. "${article.title}." ${journal}. ${article.issue} (${new Date().getFullYear()}): ${article.doi}.`;
   },
   'Vancouver': function(article) {
     const authorString = article.authors.map(author => {
       const [firstName, lastName] = author.split(' ');
       return `${lastName} ${firstName[0]}`;
     }).join(', ');
-    return `${authorString}. ${article.title}. ${article.issue}. ${new Date().getFullYear()};${article.doi}.`;
+    return `${authorString}. ${article.title}. ${journal}. ${article.issue}. ${new Date().getFullYear()};${article.doi}.`;
   }
 }
 
