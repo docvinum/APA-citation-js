@@ -1,22 +1,22 @@
 // Step 1: Retrieve article information from HTML
 function getArticleInfo() {
-  const titleElement = document.querySelector('.et_pb_text_inner h1');
+  const titleElement = document.querySelector('h1');
   const title = titleElement ? titleElement.textContent : '';
   console.log("title: ", title);
 
-  const rawAuthorsElement = document.querySelector('#publication-author .et_pb_text_inner p');
+  const rawAuthorsElement = document.querySelector('#publication-author');
   const rawAuthors = rawAuthorsElement ? rawAuthorsElement.textContent : '';
-  const regex = /[⁰¹²³⁴⁵⁶⁷⁸⁹]/g;
+  const regex = /[⁰¹²³⁴⁵⁶⁷⁸⁹]|Auteurs : /g;
   const cleanAuthors = rawAuthors.replace(regex, '').trim();
-  const authors = rawAuthors ? cleanAuthors.split(/(?:, | and | et )/) : [];
+  const authors = rawAuthors ? cleanAuthors.split(/(?:, |; | and | et )/) : [];
   console.log("authors: ", authors);
 
-  const issueElement = document.querySelector('#publication-issue .et_pb_text_inner p');
+  const issueElement = document.querySelector('#publication-issue p');
   const issueRaw = issueElement ? issueElement.innerText.split(': ')[1] : '';
   const issue = issueRaw ? issueRaw : '';
   console.log("issue: ", issue);
 
-  const doiElement = document.querySelector('#publication-doi .et_pb_text_inner p a');
+  const doiElement = document.querySelector('#publication-doi p a');
   const doi = doiElement ? doiElement.getAttribute('href') : '';
   console.log("doi: ", doi);
 
