@@ -7,7 +7,7 @@ function getArticleInfo() {
   console.log("title: ", title);
   const rawAuthorsElement = document.querySelector('#publication-author');
   const rawAuthors = rawAuthorsElement ? rawAuthorsElement.textContent : '';
-  const regex = /[⁰¹²³⁴⁵⁶⁷⁸⁹]|Auteurs : /g;
+  const regex = /[⁰¹²³⁴⁵⁶⁷⁸⁹]|Auteurs : |\n+/g;
   const cleanAuthors = rawAuthors.replace(regex, '').trim();
   const authors = rawAuthors ? cleanAuthors.split(/(?:, |; | and | et )/) : [];
   console.log("authors: ", authors);
