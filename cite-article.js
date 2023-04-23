@@ -116,6 +116,8 @@ const apaFormats = {
 // Step 3: Create dropdown menu for citation formats
 function createDropdown() {
   const select = document.createElement('select');
+  // Add the id attribute to the select element
+  select.setAttribute('id', 'select-citation-format');
   Object.keys(apaFormats).forEach(format => {
     const option = document.createElement('option');
     option.value = format;
