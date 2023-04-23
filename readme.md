@@ -1,31 +1,27 @@
 # APA-citation-js
 
-APA-citation-js est une bibliothèque JavaScript légère qui permet de générer automatiquement des citations au format APA à partir des méta-données d'un article Wordpress. L'utilisateur peut copier la citation dans son presse-papier en cliquant simplement sur un bouton.
+This JavaScript project generates citations in various formats, including APA 6th Edition, APA 7th Edition, ACM, ACS, ABNT, Chicago, Harvard, IEEE, MLA, Turabian, and Vancouver. It is designed to work with a specific HTML structure to extract the required information for citations, such as title, authors, journal, issue, doi, and date.
 
-## Fonctionnalités
+## Usage
 
-- Récupération des méta-données d'un article Wordpress (auteurs, date de publication, DOI, etc.)
-- Génération de citations APA
-- Copie de la citation dans le presse-papier
+1. Include the `cite-article.js` script in your HTML file.
+2. Create an HTML structure with the following elements:
+   - An `h1` element for the article title.
+   - An element with `id="publication-author"` for the authors.
+   - An element with `id="publication-issue"` for the issue information.
+   - An element with `id="publication-doi"` for the DOI information.
 
-## Installation
+   Note that the script is designed to work with a specific HTML structure, so make sure your HTML file has the correct elements and IDs.
 
-1. Téléchargez le fichier `cite-article.js` et placez-le dans le répertoire de votre projet.
-2. Incluez le fichier `cite-article.js` dans votre page HTML en ajoutant la balise suivante dans la section `<head>` de votre document:
+3. The script will automatically generate the citations and display them in a dropdown menu, allowing users to select and copy the citation in their desired format.
 
-```html
-<script src="cite-article.js"></script>
-```
+4. The script will also create a "Copy Citation" button, allowing users to copy the currently displayed citation to their clipboard.
 
-# Utilisation
-Pour utiliser APA-citation-js, vous devez ajouter un bouton dans votre page HTML qui permettra à l'utilisateur de copier la citation dans son presse-papier. Voici un exemple d'utilisation :
+## Customization
 
-```html
-<!-- Exemple de bouton pour copier la citation APA -->
-<button onclick="copyAPACitation()">Copier la citation APA</button>
-```
+You can customize the citation formats in the `cite-article.js` script by updating the `apaFormats` constant. The current script includes the journal "IVES Conference Series" in the citation. To change the journal, update the `journal` constant in the `getArticleInfo` function.
 
-Assurez-vous que les méta-données de l'article sont présentes sur la page, telles que les auteurs, la date de publication et le DOI. APA-citation-js utilisera ces informations pour générer la citation au format APA.
+Feel free to modify the script to fit your specific use case or to support additional citation formats.
 
 ## Contribution
 Nous accueillons avec plaisir les contributions à ce projet. N'hésitez pas à ouvrir une "pull request" ou à signaler des problèmes via l'onglet "Issues" sur GitHub.
