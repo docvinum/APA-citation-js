@@ -5,28 +5,28 @@ function getArticleInfo() {
   // Get the article title
   const titleElement = document.querySelector('h1');
   const title = titleElement ? titleElement.textContent : '';
-  console.log("title: ", title);
+  //console.log("title: ", title);
   // Get the article authors
   const rawAuthorsElement = document.querySelector('#publication-author');
   const rawAuthors = rawAuthorsElement ? rawAuthorsElement.textContent : '';
   const regex = /[⁰¹²³⁴⁵⁶⁷⁸⁹]|Auteurs : |\n+/g;
   const cleanAuthors = rawAuthors.replace(regex, '').trim();
   const authors = rawAuthors ? cleanAuthors.split(/(?:, |; | and | et )/).map(author => author.replace(/\s+/g, ' ').trim()) : []; // Updated this line to remove extra white spaces
-  console.log("authors: ", authors);
+  //console.log("authors: ", authors);
   // Get the article issue
   const issueElement = document.querySelector('#publication-issue p');
   const issueRaw = issueElement ? issueElement.innerText.split(': ')[1] : '';
   const issue = issueRaw ? issueRaw : '';
-  console.log("issue: ", issue);
+  //console.log("issue: ", issue);
   // Get the article DOI
   const doiElement = document.querySelector('#publication-doi p a');
   const doi = doiElement ? doiElement.getAttribute('href') : '';
-  console.log("doi: ", doi);
+  // console.log("doi: ", doi);
   // Get the article date (year) from the issue
   const dateRegex = /\d{4}/;
   const dateMatch = issue.match(dateRegex);
   const date = dateMatch ? dateMatch[0] : '';
-  console.log("date: ", date);
+  //console.log("date: ", date);
 
   return { title, authors, journal, issue, doi, date };
 }
@@ -131,7 +131,7 @@ function createDropdown() {
     const article = getArticleInfo();
     const selectedFormat = this.value;
     const citation = apaFormats[selectedFormat](article);
-    console.log('citation: ', citation)
+    // console.log('citation: ', citation)
     document.querySelector("#citation-frame p").innerHTML = citation;
   });
 }
@@ -153,6 +153,7 @@ document.addEventListener('DOMContentLoaded', function() {
   createDropdown();
   const article = getArticleInfo();
   displayCitation(article);
+  console.log("citation:", article);
 
   // Select the button for copying the citation from the HTML page.
   const citeButton = document.getElementById('cite-button');
@@ -174,6 +175,7 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
           await navigator.clipboard.write(data);
           console.log('Text copied to clipboard');
+          console.log("citation:", article)
         } catch (err) {
           console.error('Error copying text to clipboard', err);
         }
