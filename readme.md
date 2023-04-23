@@ -24,12 +24,16 @@ You can customize the citation formats in the `cite-article.js` script by updati
 Feel free to modify the script to fit your specific use case or to support additional citation formats.
 
 ## Contribution
-Nous accueillons avec plaisir les contributions à ce projet. N'hésitez pas à ouvrir une "pull request" ou à signaler des problèmes via l'onglet "Issues" sur GitHub.
+We welcome contributions to this project. Feel free to open a "pull request" or report issues via the "Issues" tab on GitHub.
 
 ## Licence
-Ce projet est distribué sous la licence [insérer le type de licence ici, par exemple, MIT]. Pour plus d'informations, consultez le fichier LICENSE.
 
+MIT License Copyright (c) 2023 EtOH
 
-N'oubliez pas de remplacer `[insérer le type de licence ici, par exemple, MIT]` par le type de licence que vous souhaitez utiliser pour votre projet, et de créer un fichier LICENSE correspondant.
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
-J'espère que cela vous aidera à créer un fichier Readme.md clair et informatif pour votre projet. Si vous avez d'autres questions ou avez besoin d'aide supplémentaire, n'hésitez pas à me le faire savoir.
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
