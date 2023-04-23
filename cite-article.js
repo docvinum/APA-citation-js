@@ -11,7 +11,7 @@ function getArticleInfo() {
   const rawAuthors = rawAuthorsElement ? rawAuthorsElement.textContent : '';
   const regex = /[⁰¹²³⁴⁵⁶⁷⁸⁹]|Auteurs : |\n+/g;
   const cleanAuthors = rawAuthors.replace(regex, '').trim();
-  const authors = rawAuthors ? cleanAuthors.split(/(?:, |; | and | et )/).map(author => author.trim()) : [];
+  const authors = rawAuthors ? cleanAuthors.split(/(?:, |; | and | et )/).map(author => author.replace(/\s+/g, ' ').trim()) : []; // Updated this line to remove extra white spaces
   console.log("authors: ", authors);
   // Get the article issue
   const issueElement = document.querySelector('#publication-issue p');
