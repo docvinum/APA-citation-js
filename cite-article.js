@@ -1,25 +1,28 @@
-// Step 1: Retrieve article information from HTML
+// Step 1: Retrieve article information from HTML page
 function getArticleInfo() {
+  // Get the article journal
   const journal = "IVES Conference Series";
-  
+  // Get the article title
   const titleElement = document.querySelector('h1');
   const title = titleElement ? titleElement.textContent : '';
   console.log("title: ", title);
+  // Get the article authors
   const rawAuthorsElement = document.querySelector('#publication-author');
   const rawAuthors = rawAuthorsElement ? rawAuthorsElement.textContent : '';
   const regex = /[⁰¹²³⁴⁵⁶⁷⁸⁹]|Auteurs : |\n+/g;
   const cleanAuthors = rawAuthors.replace(regex, '').trim();
-  const authors = rawAuthors ? cleanAuthors.split(/(?:, |; | and | et )/) : [];
+  const authors = rawAuthors ? cleanAuthors.split(/(?:, |; | and | et )/).map(author => author.trim()) : [];
   console.log("authors: ", authors);
+  // Get the article issue
   const issueElement = document.querySelector('#publication-issue p');
   const issueRaw = issueElement ? issueElement.innerText.split(': ')[1] : '';
   const issue = issueRaw ? issueRaw : '';
   console.log("issue: ", issue);
+  // Get the article DOI
   const doiElement = document.querySelector('#publication-doi p a');
   const doi = doiElement ? doiElement.getAttribute('href') : '';
   console.log("doi: ", doi);
-
-  // Added 'date' constant
+  // Get the article date (year) from the issue
   const dateRegex = /\d{4}/;
   const dateMatch = issue.match(dateRegex);
   const date = dateMatch ? dateMatch[0] : '';
@@ -28,7 +31,7 @@ function getArticleInfo() {
   return { title, authors, journal, issue, doi, date };
 }
 
-// Step 2: Define APA citation formats object
+// Step 2: Define citation formats object 
 const apaFormats = {
   'APA 6th Edition': function(article) {
   const authorString = article.authors.join(', ');
@@ -110,7 +113,7 @@ const apaFormats = {
   }
 }
 
-// Step 3: Create dropdown menu for APA citation formats
+// Step 3: Create dropdown menu for citation formats
 function createDropdown() {
   const select = document.createElement('select');
   Object.keys(apaFormats).forEach(format => {
@@ -126,6 +129,7 @@ function createDropdown() {
     const article = getArticleInfo();
     const selectedFormat = this.value;
     const citation = apaFormats[selectedFormat](article);
+    console.log('citation: ', citation)
     document.querySelector("#citation-frame p").innerHTML = citation;
   });
 }
@@ -135,13 +139,14 @@ function displayCitation(article) {
   const selectedFormat = document.querySelector("select").value;
   const citation = apaFormats[selectedFormat](article);
   const citationElem = document.createElement("p");
-  citationElem.id = "citation"; // Add an ID to the citation element for easier reference
-  citationElem.innerHTML = citation; // Change this line from "citationElem.textContent = citation;"
+  // Add an ID to the citation element for easier reference
+  citationElem.id = "citation";
+  citationElem.innerHTML = citation;
   document.querySelector("#citation-frame").appendChild(citationElem);
 }
 
 
-// On page load, create APA citation format dropdown and display default citation
+// On page load, create citation format dropdown and display default citation
 document.addEventListener('DOMContentLoaded', function() {
   createDropdown();
   const article = getArticleInfo();
