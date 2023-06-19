@@ -7,11 +7,12 @@ function getArticleInfo() {
   const title = titleElement ? titleElement.textContent : '';
   //console.log("title: ", title);
   // Get the article authors
-  const rawAuthorsElement = document.querySelector('#publication-author');
-  const rawAuthors = rawAuthorsElement ? rawAuthorsElement.textContent : '';
-  const regex = /[⁰¹²³⁴⁵⁶⁷⁸⁹]|Auteurs : |\n+/g;
-  const cleanAuthors = rawAuthors.replace(regex, '').trim();
+  const rawAuthorsElement = document.querySelector('#publication-author');  
+  const rawAuthors = rawAuthorsElement ? rawAuthorsElement.textContent : '';  
+  const regex = /[\d⁰¹²³⁴⁵⁶⁷⁸⁹]|Auteurs : |\n+|[^a-zA-Z\s]/g;  
+  const cleanAuthors = rawAuthors.replace(regex, '').trim();  
   const authors = rawAuthors ? cleanAuthors.split(/(?:, |; | and | et )/).map(author => author.replace(/\s+/g, ' ').trim()) : []; // Updated this line to remove extra white spaces
+
   //console.log("authors: ", authors);
   // Get the article issue
   const issueElement = document.querySelector('#publication-issue p');
