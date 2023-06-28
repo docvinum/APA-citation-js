@@ -7,16 +7,10 @@ function getArticleInfo() {
   const title = titleElement ? titleElement.textContent : '';
   // Get the article authors
   const rawAuthorsElement = document.querySelector('#publication-author');
-  let authors; // Define authors here
-  if (rawAuthorsElement) {
-    // Split into a list of authors
-    const rawAuthors = rawAuthorsElement.textContent.split(/(?:, |; | and | et )/);
-    // Clean the list of authors from special characters
-    const regex = /^[A-Za-zÀ-ÿ\s'.-]+$/;
-    authors = rawAuthors.filter(author => regex.test(author.trim()));
-  } else {
-    authors = [];
-  }
+  const rawAuthors = rawAuthorsElement ? rawAuthorsElement.textContent : '';
+const regex = /[\d\u2070\u00b9\u00b2\u00b3\u2074\u2075\u2076\u2077\u2078\u2079]|Auteurs : |\n+|[^a-zA-Z\s\u00C0-\u017F,.'’-]/g;
+  const cleanAuthors = rawAuthors.replace(regex, '').trim();
+  const authors = rawAuthors ? cleanAuthors.split(/(?:, |; | and | et )/).map(author => author.replace(/\s+/g, ' ').trim()) : [];
   // Get the article issue
   const issueElement = document.querySelector('#publication-issue p');
   const issueRaw = issueElement ? issueElement.innerText.split(': ')[1] : '';
