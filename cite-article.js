@@ -7,14 +7,15 @@ function getArticleInfo() {
   const title = titleElement ? titleElement.textContent : '';
   // Get the article authors
   const rawAuthorsElement = document.querySelector('#publication-author');
+  let authors; // Define authors here
   if (rawAuthorsElement) {
     // Split into a list of authors
     const rawAuthors = rawAuthorsElement.textContent.split(/(?:, |; | and | et )/);
     // Clean the list of authors from special characters
     const regex = /^[A-Za-zÀ-ÿ\s'.-]+$/;
-    const authors = rawAuthors.filter(author => regex.test(author.trim()));
+    authors = rawAuthors.filter(author => regex.test(author.trim()));
   } else {
-    const authors = [];
+    authors = [];
   }
   // Get the article issue
   const issueElement = document.querySelector('#publication-issue p');
@@ -30,7 +31,6 @@ function getArticleInfo() {
 
   return { title, authors, journal, issue, doi, date };
 }
-
 
 // Step 2: Define citation formats object 
 const apaFormats = {
