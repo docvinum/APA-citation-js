@@ -108,10 +108,17 @@ const apaFormats = {
   }
 }
 
-// Step 3: Create dropdown menu for citation formats
+// Étape 3 : Créer un menu déroulant pour les formats de citation
 function createDropdown() {
+  // Vérifier si #citation-frame existe
+  const citationFrame = document.querySelector('#citation-frame');
+  if (!citationFrame) {
+    console.log("Cadre de citation non trouvé. Sortie du script.");
+    return;
+  }
+
   const select = document.createElement('select');
-  // Add the id attribute to the select element
+  // Ajouter l'attribut id à l'élément select
   select.setAttribute('id', 'select-citation-format');
   Object.keys(apaFormats).forEach(format => {
     const option = document.createElement('option');
@@ -119,17 +126,21 @@ function createDropdown() {
     option.textContent = format;
     select.appendChild(option);
   });
-  document.querySelector('#citation-frame').appendChild(select);
+  citationFrame.appendChild(select);
 
-  // Update citation when selection changes
+  // Mettre à jour la citation lorsque la sélection change
   select.addEventListener("change", function () {
     const article = getArticleInfo();
     const selectedFormat = this.value;
     const citation = apaFormats[selectedFormat](article);
     // console.log('citation: ', citation)
-    document.querySelector("#citation-frame p").innerHTML = citation;
+    const citationParagraph = citationFrame.querySelector("p");
+    if (citationParagraph) {
+      citationParagraph.innerHTML = citation;
+    }
   });
 }
+
 
 // Step 4: Retrieve selected APA citation format and display citation
 function displayCitation(article) {
