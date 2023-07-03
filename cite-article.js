@@ -8,7 +8,7 @@ function getArticleInfo() {
   // Get the article authors
   const rawAuthorsElement = document.querySelector('#publication-author');
   const rawAuthors = rawAuthorsElement ? rawAuthorsElement.textContent : '';
-  const regex = /[\d\u2070\u00b9\u00b2\u00b3\u2074\u2075\u2076\u2077\u2078\u2079]|Auteurs : |\n+|[^a-zA-Z\s\u00C0-\u017F,.'’-]/g;
+const regex = /[\d\u2070\u00b9\u00b2\u00b3\u2074\u2075\u2076\u2077\u2078\u2079]|Auteurs : |\n+|[^a-zA-Z\s\u00C0-\u017F,.'’-]/g;
   const cleanAuthors = rawAuthors.replace(regex, '').trim();
   const authors = rawAuthors ? cleanAuthors.split(/(?:, |; | and | et )/).map(author => author.replace(/\s+/g, ' ').trim()) : [];
   // Get the article issue
@@ -22,12 +22,90 @@ function getArticleInfo() {
   const dateRegex = /\d{4}/;
   const dateMatch = issue.match(dateRegex);
   const date = dateMatch ? dateMatch[0] : '';
+
   return { title, authors, journal, issue, doi, date };
 }
 
 // Step 2: Define citation formats object 
 const apaFormats = {
-  // citation formats...
+  'APA 6th Edition': function(article) {
+  const authorString = article.authors.join(', ');
+  return `${authorString} (${article.date}). ${article.title}. <i>${article.journal}, ${article.issue}</i>. ${article.doi}`;
+},
+  'APA 7th Edition': function(article) {
+  const formattedAuthors = article.authors.map(author => {
+    const words = author.split(' ');
+    const firstName = words.shift();
+    const lastName = words.pop().replace(',', '');
+    return `${lastName}, ${words.join(' ')} ${firstName.charAt(0)}.`;
+  }).join(', ');
+  return `${formattedAuthors} (${article.date}). ${article.title}. <i>${article.journal}, ${article.issue}</i>. ${article.doi}`;
+},
+  'ACM': function(article) {
+  const authorString = article.authors.map(author => {
+    const [firstName, lastName] = author.split(' ');
+    return `${lastName}, ${firstName[0]}.`;
+  }).join(', ');
+  return `${authorString}. ${article.date}. <i>${article.title}</i>. ${article.journal}, ${article.issue}. ${article.doi}`;
+},
+'ACS': function(article) {
+  const authorString = article.authors.map(author => {
+    const [firstName, lastName] = author.split(' ');
+    return `${lastName}, ${firstName}`;
+  }).join('; ');
+  return `${authorString}. <i>${article.title}</i>. ${article.journal}, ${article.issue}. ${article.doi}.`;
+},
+  'ABNT': function(article) {
+    const formattedAuthors = article.authors.map(author => {
+      const words = author.split(' ');
+      const lastName = words.pop().replace(',', '');
+      const firstInitials = words.filter(word => !word.match(/^[A-Z]\.$/)).map(word => word.charAt(0)).join(' ');
+      return `${lastName.toUpperCase()}, ${firstInitials}.`;
+    }).join('; ');
+    return `${formattedAuthors}. ${article.title}. ${article.journal}, ${article.issue}. ${article.doi}. ${article.date}.`;
+  },
+  'Chicago': function(article) {
+    const authorString = article.authors.map(author => {
+      const [firstName, lastName] = author.split(' ');
+      return `${lastName} ${firstName}`;
+    }).join(', ');
+    return `${authorString}. "<i>${article.title}</i>." ${article.journal} ${article.issue} (${article.date}): ${article.doi}.`;
+  },
+  'Harvard': function(article) {
+    const authorString = article.authors.map(author => {
+      const [lastName, ...rest] = author.split(' ');
+      return `${rest.join(' ')} ${lastName.toUpperCase()}`;
+    }).join(', ');
+    return `${authorString} ${article.date}, ${article.title}, ${article.journal}, ${article.issue}, ${article.doi}.`;
+  },
+  'IEEE': function(article) {
+    const authorString = article.authors.map(author => {
+      const [firstName, lastName] = author.split(' ');
+      return `${firstName[0]}. ${lastName}`;
+    }).join(', ');
+    return `${authorString}, "<i>${article.title}</i>," ${article.journal}, ${article.issue}, ${article.date}, doi: ${article.doi}.`;
+  },
+  'MLA': function(article) {
+    const authorString = article.authors.map(author => {
+      const [firstName, lastName] = author.split(' ');
+      return `${lastName}, ${firstName}`;
+    }).join(', ');
+    return `${authorString}. "<i>${article.title}</i>." ${article.journal}, ${article.issue}, ${article.date}, ${article.doi}.`;
+  },
+  'Turabian': function(article) {
+    const authorString = article.authors.map(author => {
+      const [firstName, lastName] = author.split(' ');
+      return `${lastName}, ${firstName}`;
+    }).join(', ');
+    return `${authorString}. "<i>${article.title}</i>." ${article.journal} ${article.issue} (${article.date}): ${article.doi}.`;
+  },
+  'Vancouver': function(article) {
+    const authorString = article.authors.map(author => {
+      const [firstName, lastName] = author.split(' ');
+      return `${lastName} ${firstName[0]}`;
+    }).join(', ');
+    return `${authorString}. ${article.title}. ${article.journal}. ${article.issue}. ${article.date};${article.doi}.`;
+  }
 }
 
 // Step 3: Create dropdown menu for citation formats
@@ -42,11 +120,13 @@ function createDropdown() {
     select.appendChild(option);
   });
   document.querySelector('#citation-frame').appendChild(select);
+
   // Update citation when selection changes
   select.addEventListener("change", function () {
     const article = getArticleInfo();
     const selectedFormat = this.value;
     const citation = apaFormats[selectedFormat](article);
+    // console.log('citation: ', citation)
     document.querySelector("#citation-frame p").innerHTML = citation;
   });
 }
@@ -63,30 +143,36 @@ function displayCitation(article) {
 }
 
 // On page load, create citation format dropdown and display default citation
+
 document.addEventListener('DOMContentLoaded', function() {
+  // Check if #citation-frame exists
   const citationFrame = document.querySelector('#citation-frame');
   if (!citationFrame) {
-    console.log('Citation frame not found. Script execution stopped.');
+    console.log("Citation frame not found. Exiting script.");
     return;
   }
-  createDropdown();
+    createDropdown();
   const article = getArticleInfo();
   displayCitation(article);
   console.log("citation:", article);
+
   // Select the button for copying the citation from the HTML page.
   const citeButton = document.getElementById('cite-button');
+
   // Check if the button was found.
   if (citeButton) {
     // Add a 'click' event listener to the button to copy the citation.
     citeButton.addEventListener('click', async () => {
       // Get the current citation displayed on the page.
       const citationElement = document.querySelector('#citation-frame p');
+
       // Check if the citation element was found.
       if (citationElement) {
         // Copy the inner HTML of the citation element to the clipboard as rich text.
         const type = "text/html";
         const blob = new Blob([citationElement.innerHTML], { type });
         const data = [new ClipboardItem({ [type]: blob })];
+
         try {
           await navigator.clipboard.write(data);
           console.log('Text copied to clipboard');
