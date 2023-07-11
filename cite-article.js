@@ -7,9 +7,13 @@ function getArticleInfo() {
   const title = titleElement ? titleElement.textContent : '';
   // Get the article authors
   const rawAuthorsElement = document.querySelector('#publication-author');
-  const rawAuthors = rawAuthorsElement ? rawAuthorsElement.textContent : '';
-const regex = /[\d\u2070\u00b9\u00b2\u00b3\u2074\u2075\u2076\u2077\u2078\u2079]|Auteurs : |\n+|[^a-zA-Z\s\u00C0-\u017F,.'’-]/g;
+  let rawAuthors = rawAuthorsElement ? rawAuthorsElement.textContent : '';
+  // Remove commas between two numbers and between a number and a '*'
+  rawAuthors = rawAuthors.replace(/,(\d|\*)/g, '$1');
+  // Remove all unwanted characters from the authors string
+  const regex = /[\d\u2070\u00b9\u00b2\u00b3\u2074\u2075\u2076\u2077\u2078\u2079]|Auteurs : |\n+|[^a-zA-Z\s\u00C0-\u017F,.'’-]/g;
   const cleanAuthors = rawAuthors.replace(regex, '').trim();
+  // Split the authors string into an array of authors
   const authors = rawAuthors ? cleanAuthors.split(/(?:, |; | and | et )/).map(author => author.replace(/\s+/g, ' ').trim()) : [];
   // Get the article issue
   const issueElement = document.querySelector('#publication-issue p');
