@@ -145,7 +145,11 @@ function createDropdown() {
 // Step 4: Retrieve selected APA citation format and display citation
 function displayCitation(article) {
   const selectedFormat = document.querySelector("select").value;
-  const citation = apaFormats[selectedFormat](article);
+  let citation = apaFormats[selectedFormat](article);
+  
+  // Replace multiple commas with a single comma
+  citation = citation.replace(/,+/g, ',');
+
   const citationElem = document.createElement("p");
   // Add an ID to the citation element for easier reference
   citationElem.id = "citation";
